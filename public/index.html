@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WeatherNow - Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f8fa;
+    }
+    nav {
+      background-color: #ffffff;
+      padding: 1rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #333;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    nav .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+    }
+    nav .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+    nav ul li a:hover {
+      color: #0288d1;
+    }
+    .nav-auth a {
+      text-decoration: none;
+      color: #0288d1;
+      font-weight: bold;
+      padding: 0.4rem 0.8rem;
+      border: 1px solid #0288d1;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+    .nav-auth a:hover {
+      background-color: #0288d1;
+      color: white;
+    }
+    .hero {
+      background: linear-gradient(to right, #1eb9ff, #69d2ff);
+      color: white;
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+    }
+    .hero .search-bar {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    .search-bar input {
+      padding: 0.6rem;
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    .search-bar button {
+      padding: 0.6rem 1rem;
+      border: none;
+      background-color: #0288d1;
+      color: white;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .search-bar button:hover {
+      background-color: #0277bd;
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 4rem 3rem;
+      background-color: white;
+    }
+    .feature-card {
+      background-color: #f9f9f9;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      text-align: center;
+      transition: transform 0.3s;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+    .feature-card i {
+      font-size: 2.5rem;
+      color: #0288d1;
+      margin-bottom: 1rem;
+    }
+    footer {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      padding: 2rem 3rem;
+      background-color: #f0f4f8;
+      color: #555;
+      font-size: 0.9rem;
+    }
+    footer div {
+      margin: 1rem;
+    }
+    footer h4 {
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+    footer a {
+      display: block;
+      color: #555;
+      text-decoration: none;
+      margin: 0.2rem 0;
+      font-size: 0.9rem;
+    }
+    footer a:hover {
+      color: #0288d1;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-left">
+      <h1 style="font-size: 1.5rem; color: #0288d1;">WeatherNow</h1>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="forecast.html" onclick="return checkLogin()">Forecast</a></li>
+        <li><a href="history.html" onclick="return checkLogin()">History</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </div>
+    <div class="nav-right" id="accountArea">
+      <!-- Filled dynamically -->
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>Welcome to WeatherNow 🌦️</h1>
+    <p>Your ultimate destination for global weather insights powered by reliable data and sleek design.</p>
+    <div class="search-bar">
+      <input type="text" id="cityInput" placeholder="Enter a city">
+      <button onclick="handleSearch()">Search</button>
+    </div>
+    <div id="weatherResult" style="margin-top: 2rem;"></div>
+  </section>
+
+  <section class="features">
+    <div class="feature-card">
+      <i class="fas fa-sun"></i>
+      <h3>Current Weather</h3>
+      <p>Get up-to-date weather conditions for any city worldwide.</p>
+    </div>
+    <div class="feature-card">
+      <i class="fas fa-cloud-sun-rain"></i>
+      <h3>5-Day Forecast</h3>
+      <p>Plan ahead with accurate and detailed 5-day forecasts.</p>
+    </div>
+    <div class="feature-card">
+      <i class="fas fa-map"></i>
+      <h3>Weather Maps</h3>
+      <p>Visualize temperature, wind, and precipitation on interactive maps.</p>
+    </div>
+    <div class="feature-card">
+      <i class="fas fa-code"></i>
+      <h3>API Access</h3>
+      <p>Integrate live weather data into your own apps or websites.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <h4>WeatherNow</h4>
+      <p>Reliable weather insights for developers and everyday users.</p>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <a href="about.html">About</a>
+      <a href="support.html">Support</a>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+    </div>
+  </footer>
+
+  <!-- SCRIPT SECTION -->
+  <script>
+    const apiKey = "0c9e47efacdbaa864e9f24fada774528";
+
+    function checkLogin() {
+      if (!localStorage.getItem("loggedIn")) {
+        alert("Please log in to access this feature.");
+        window.location.href = "login.html";
+        return false;
+      }
+      return true;
+    }
+
+    function handleSearch() {
+      if (!checkLogin()) return;
+      const city = document.getElementById("cityInput").value;
+      if (!city.trim()) return;
+
+      fetch('/api/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ city })
+      });
+
+      getWeather(city);
+    }
+
+    function getWeather(city) {
+      const resultDiv = document.getElementById("weatherResult");
+      resultDiv.innerHTML = "<p>Loading...</p>";
+      fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.cod !== 200) {
+            resultDiv.innerHTML = "<p style='color:red'>City not found.</p>";
+            return;
+          }
+          resultDiv.innerHTML = `
+            <h2>${data.name}</h2>
+            <p><strong>${data.weather[0].main}</strong>: ${data.weather[0].description}</p>
+            <p><strong>Temperature:</strong> ${data.main.temp}°C</p>
+            <p><strong>Humidity:</strong> ${data.main.humidity}%</p>
+            <p><strong>Wind:</strong> ${data.wind.speed} m/s</p>
+          `;
+        })
+        .catch(err => {
+          resultDiv.innerHTML = "<p style='color:red'>Failed to fetch weather.</p>";
+        });
+    }
+
+    // LOAD USER SESSION ON PAGE LOAD
+    window.addEventListener("DOMContentLoaded", () => {
+      fetch('/api/user')
+        .then(res => res.json())
+        .then(data => {
+          const nav = document.getElementById("accountArea");
+          if (data.loggedIn) {
+            localStorage.setItem("loggedIn", "true");
+            nav.innerHTML = `
+              <span style="color:#0288d1;">Welcome, ${data.name}</span>
+              <a href="history.html" style="margin-left: 1rem; color:#0288d1;">My History</a>
+              <a href="/logout" style="margin-left: 1rem; color:#0288d1;">Logout</a>
+            `;
+          } else {
+            localStorage.removeItem("loggedIn");
+            nav.innerHTML = `
+              <div class="nav-auth">
+                <a href="login.html">Login</a>
+                <a href="signup.html">Sign Up</a>
+              </div>
+            `;
+          }
+        });
+    });
+  </script>
+</body>
+</html>
